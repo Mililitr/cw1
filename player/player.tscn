@@ -1,0 +1,347 @@
+[gd_scene load_steps=23 format=3 uid="uid://d2wfdg558exsp"]
+
+[ext_resource type="Script" path="res://player/player.gd" id="1_l6mrn"]
+[ext_resource type="PackedScene" uid="uid://b6j0xo1gstxfu" path="res://nodes/hit_area/hit_area.tscn" id="2_ebrgq"]
+[ext_resource type="Texture2D" uid="uid://3choucxb67lb" path="res://textures/face.png" id="2_s7po6"]
+[ext_resource type="PackedScene" uid="uid://cwmpi535raao7" path="res://entity/items/hand/hand.tscn" id="3_m0cj8"]
+[ext_resource type="Texture2D" uid="uid://dmghihlqwaaeg" path="res://textures/10x10/carton_health.png" id="5_cwgqf"]
+[ext_resource type="Texture2D" uid="uid://bm5ve5yeew7i5" path="res://textures/10x10/head_health.png" id="6_lpmd7"]
+[ext_resource type="Texture2D" uid="uid://bkatxanmo8pbe" path="res://textures/10x10/body_health.png" id="7_fid1i"]
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_74d6b"]
+animation = &"crouch"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_2food"]
+animation = &"up"
+
+[sub_resource type="AnimationNodeBlendSpace1D" id="AnimationNodeBlendSpace1D_kptoj"]
+blend_point_0/node = SubResource("AnimationNodeAnimation_74d6b")
+blend_point_0/pos = -1.0
+blend_point_1/node = SubResource("AnimationNodeAnimation_2food")
+blend_point_1/pos = 1.0
+
+[sub_resource type="Animation" id="Animation_7gv8l"]
+length = 0.001
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("neck:rotation:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+
+[sub_resource type="Animation" id="Animation_8nj5e"]
+resource_name = "crouch"
+length = 0.2
+step = 0.05
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("c")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 0, 0.3, 0, 0.2, 1, 0, 0.8, 0)
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("c:shape:size")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0.8, 2, 0.8), Vector3(0.8, 1, 0.8)]
+}
+tracks/2/type = "bezier"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("neck:rotation:x")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, -1.2, 0, 0, 0, 0),
+"times": PackedFloat32Array(0, 0.2)
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("c_ray1:shape:length")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [2.3, 1.0]
+}
+
+[sub_resource type="Animation" id="Animation_dytvd"]
+resource_name = "up"
+length = 0.2
+step = 0.05
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("c")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 0, 0.8, 0, 0.2, 1, 0, 0.3, 0)
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("c:shape:size")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0.8, 1, 0.8), Vector3(0.8, 2, 0.8)]
+}
+tracks/2/type = "bezier"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("neck:rotation:x")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(-1.2, 0, 0, 0, 0, 0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 0.2)
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("c_ray1:shape:length")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [1.0, 2.3]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_n13d0"]
+_data = {
+"RESET": SubResource("Animation_7gv8l"),
+"crouch": SubResource("Animation_8nj5e"),
+"up": SubResource("Animation_dytvd")
+}
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_h4ox3"]
+albedo_color = Color(0.392157, 0.235294, 0, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_1vd7s"]
+material = SubResource("StandardMaterial3D_h4ox3")
+size = Vector3(0.8, 0.6, 0.4)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_gl4rw"]
+size = Vector3(0.8, 0.6, 0.4)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wfy8h"]
+albedo_color = Color(0.54902, 0.392157, 0, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_a2n88"]
+material = SubResource("StandardMaterial3D_wfy8h")
+size = Vector3(0.8, 1.8, 0.6)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_y5edy"]
+size = Vector3(0.8, 1.8, 0.6)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_uyp73"]
+size = Vector3(0.8, 2, 0.8)
+
+[sub_resource type="SeparationRayShape3D" id="SeparationRayShape3D_yo75x"]
+length = 2.3
+
+[node name="player" type="CharacterBody3D"]
+collision_layer = 2
+script = ExtResource("1_l6mrn")
+
+[node name="tree" type="AnimationTree" parent="."]
+tree_root = SubResource("AnimationNodeBlendSpace1D_kptoj")
+anim_player = NodePath("../animation")
+active = true
+parameters/blend_position = 1.0
+
+[node name="animation" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_n13d0")
+}
+
+[node name="kinematic" type="Node3D" parent="."]
+
+[node name="camera" type="Camera3D" parent="kinematic"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -0.3)
+
+[node name="head" type="MeshInstance3D" parent="kinematic/camera"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.3)
+mesh = SubResource("BoxMesh_1vd7s")
+
+[node name="head" parent="kinematic/camera/head" instance=ExtResource("2_ebrgq")]
+
+[node name="c" type="CollisionShape3D" parent="kinematic/camera/head/head"]
+shape = SubResource("BoxShape3D_gl4rw")
+
+[node name="sprite" type="Sprite3D" parent="kinematic/camera"]
+transform = Transform3D(-5, 0, -7.54979e-07, 0, 5, 0, 7.54979e-07, 0, -5, 0, 0, 0)
+shaded = true
+double_sided = false
+texture_filter = 0
+texture = ExtResource("2_s7po6")
+
+[node name="ray" type="RayCast3D" parent="kinematic/camera"]
+target_position = Vector3(0, 0, -600)
+
+[node name="ray_end" type="Node3D" parent="kinematic/camera/ray"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -600)
+
+[node name="neck" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="body" type="MeshInstance3D" parent="neck"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.4, 0)
+mesh = SubResource("BoxMesh_a2n88")
+skeleton = NodePath("../..")
+
+[node name="body" parent="neck/body" instance=ExtResource("2_ebrgq")]
+
+[node name="c" type="CollisionShape3D" parent="neck/body/body"]
+shape = SubResource("BoxShape3D_y5edy")
+
+[node name="lh" type="Node3D" parent="neck"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.6, -0.6, -0.9)
+
+[node name="hand" parent="neck/lh" instance=ExtResource("3_m0cj8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.2)
+collision_mask = 1
+freeze_mode = 0
+
+[node name="rh" type="Node3D" parent="neck"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.6, -0.6, -0.9)
+
+[node name="hand" parent="neck/rh" instance=ExtResource("3_m0cj8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.2)
+collision_mask = 1
+freeze_mode = 0
+
+[node name="c" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, 0)
+shape = SubResource("BoxShape3D_uyp73")
+
+[node name="c_ray1" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0.2, 1, 0.2)
+shape = SubResource("SeparationRayShape3D_yo75x")
+
+[node name="c_ray2" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, -0.2, 1, 0.2)
+shape = SubResource("SeparationRayShape3D_yo75x")
+
+[node name="c_ray3" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0.2, 1, -0.2)
+shape = SubResource("SeparationRayShape3D_yo75x")
+
+[node name="c_ray4" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, -0.2, 1, -0.2)
+shape = SubResource("SeparationRayShape3D_yo75x")
+
+[node name="c_ray5" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 1, 0)
+shape = SubResource("SeparationRayShape3D_yo75x")
+
+[node name="ray" type="RayCast3D" parent="."]
+target_position = Vector3(0, 1.6, 0)
+
+[node name="screen" type="MarginContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="control" type="MarginContainer" parent="screen"]
+layout_mode = 2
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 50
+theme_override_constants/margin_bottom = 20
+
+[node name="cross" type="Label" parent="screen/control"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 20
+text = "+"
+horizontal_alignment = 1
+
+[node name="lh" type="MarginContainer" parent="screen/control"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+theme_override_constants/margin_top = -50
+theme_override_constants/margin_right = -50
+
+[node name="label" type="Label" parent="screen/control/lh"]
+layout_mode = 2
+text = "="
+
+[node name="rh" type="MarginContainer" parent="screen/control"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+theme_override_constants/margin_left = -50
+theme_override_constants/margin_top = -50
+
+[node name="label" type="Label" parent="screen/control/rh"]
+layout_mode = 2
+text = "="
+
+[node name="structure" type="MarginContainer" parent="screen/control"]
+layout_mode = 2
+size_flags_vertical = 8
+theme_override_constants/margin_top = -40
+
+[node name="hbox" type="HBoxContainer" parent="screen/control/structure"]
+layout_mode = 2
+size_flags_vertical = 8
+alignment = 1
+
+[node name="carton" type="TextureRect" parent="screen/control/structure/hbox"]
+layout_mode = 2
+texture = ExtResource("5_cwgqf")
+expand_mode = 2
+
+[node name="carton_label" type="Label" parent="screen/control/structure/hbox"]
+layout_mode = 2
+text = "%"
+
+[node name="head_health" type="TextureRect" parent="screen/control/structure/hbox"]
+layout_mode = 2
+texture = ExtResource("6_lpmd7")
+expand_mode = 2
+
+[node name="head_health_label" type="Label" parent="screen/control/structure/hbox"]
+layout_mode = 2
+text = "%"
+
+[node name="body_health" type="TextureRect" parent="screen/control/structure/hbox"]
+layout_mode = 2
+texture = ExtResource("7_fid1i")
+expand_mode = 2
+
+[node name="body_health_label" type="Label" parent="screen/control/structure/hbox"]
+layout_mode = 2
+text = "%"
+
+[node name="black" type="ColorRect" parent="screen"]
+layout_mode = 2
+color = Color(0, 0, 0, 0)
+
+[connection signal="hit" from="kinematic/camera/head/head" to="." method="_on_head_hit"]
+[connection signal="hit" from="neck/body/body" to="." method="_on_body_hit"]

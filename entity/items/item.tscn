@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://dod8j7h7xfppg"]
+
+[ext_resource type="PackedScene" uid="uid://bmftte0rbtvc7" path="res://entity/entity.tscn" id="1_p1hgu"]
+[ext_resource type="Script" path="res://entity/items/item.gd" id="2_tgekf"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_vxyf6"]
+size = Vector3(0.2, 0.2, 0.2)
+
+[node name="item" groups=["entity_item"] instance=ExtResource("1_p1hgu")]
+collision_layer = 8
+collision_mask = 9
+freeze = true
+freeze_mode = 1
+script = ExtResource("2_tgekf")
+dexterity = 1.0
+damage = 1
+
+[node name="c" type="CollisionShape3D" parent="." index="0"]
+shape = SubResource("BoxShape3D_vxyf6")

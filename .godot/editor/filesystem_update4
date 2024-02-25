@@ -1,0 +1,4 @@
+res://maps/tests/mesh_map_test.tscn
+res://player/player.tscn
+res://entity/items/hand/hand.tscn
+res://entity/items/item.tscn

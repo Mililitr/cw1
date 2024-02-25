@@ -1,0 +1,114 @@
+[gd_scene load_steps=11 format=3 uid="uid://deqpxbsmnpnd"]
+
+[ext_resource type="Script" path="res://tests/animation_test.gd" id="1_p1hka"]
+[ext_resource type="Texture2D" uid="uid://3choucxb67lb" path="res://textures/face.png" id="2_w5oag"]
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_572w5"]
+animation = &"crouch"
+
+[sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_ne0u5"]
+
+[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_i3wkr"]
+graph_offset = Vector2(-442.91, 109.798)
+nodes/Animation/node = SubResource("AnimationNodeAnimation_572w5")
+nodes/Animation/position = Vector2(-120, 140)
+nodes/Blend2/node = SubResource("AnimationNodeBlend2_ne0u5")
+nodes/Blend2/position = Vector2(100, 140)
+nodes/output/position = Vector2(280, 140)
+node_connections = [&"output", 0, &"Blend2", &"Blend2", 0, &"Animation"]
+
+[sub_resource type="Animation" id="Animation_ymxrd"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Face1:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Face2:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(5, 20)]
+}
+
+[sub_resource type="Animation" id="Animation_q06r4"]
+resource_name = "crouch"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Face1:rotation")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [1.309]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Face2:scale")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_bfhid"]
+resource_name = "mesh"
+loop_mode = 1
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_8yqa2"]
+_data = {
+"RESET": SubResource("Animation_ymxrd"),
+"crouch": SubResource("Animation_q06r4"),
+"mesh": SubResource("Animation_bfhid")
+}
+
+[sub_resource type="BoxMesh" id="BoxMesh_fr0de"]
+
+[node name="animation_test" type="Node2D"]
+script = ExtResource("1_p1hka")
+
+[node name="tree" type="AnimationTree" parent="."]
+tree_root = SubResource("AnimationNodeBlendTree_i3wkr")
+anim_player = NodePath("../animation")
+active = true
+parameters/Blend2/blend_amount = 1.0
+
+[node name="animation" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_8yqa2")
+}
+
+[node name="Face1" type="Sprite2D" parent="."]
+position = Vector2(256, 216)
+scale = Vector2(5, 20)
+texture = ExtResource("2_w5oag")
+
+[node name="Face2" type="Sprite2D" parent="."]
+position = Vector2(520, 216)
+scale = Vector2(5, 20)
+texture = ExtResource("2_w5oag")
+
+[node name="mesh1" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.122081, 0)
+mesh = SubResource("BoxMesh_fr0de")

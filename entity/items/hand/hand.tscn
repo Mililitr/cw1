@@ -1,0 +1,96 @@
+[gd_scene load_steps=10 format=3 uid="uid://cwmpi535raao7"]
+
+[ext_resource type="PackedScene" uid="uid://dod8j7h7xfppg" path="res://entity/items/item.tscn" id="1_p1hgu"]
+[ext_resource type="Script" path="res://entity/items/hand/hand.gd" id="2_gl04i"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_160b8"]
+size = Vector3(0.2, 0.2, 0.6)
+
+[sub_resource type="Animation" id="Animation_0tis3"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("mesh:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_euwoy"]
+resource_name = "mb"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("mesh:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0, -1), Vector3(0, 0, 0)]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.1, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": [],
+"method": &"atack"
+}, {
+"args": [],
+"method": &"atack"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_pm6vx"]
+_data = {
+"RESET": SubResource("Animation_0tis3"),
+"mb": SubResource("Animation_euwoy")
+}
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_iolbx"]
+albedo_color = Color(0.784314, 0.54902, 0, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_6gxch"]
+size = Vector3(0.2, 0.2, 0.6)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_f1lyw"]
+size = Vector3(0.1, 0.1, 0.1)
+
+[node name="hand" instance=ExtResource("1_p1hgu")]
+script = ExtResource("2_gl04i")
+
+[node name="c" parent="." index="0"]
+shape = SubResource("BoxShape3D_160b8")
+
+[node name="animation" type="AnimationPlayer" parent="." index="1"]
+libraries = {
+"": SubResource("AnimationLibrary_pm6vx")
+}
+
+[node name="mesh" type="MeshInstance3D" parent="." index="2"]
+material_override = SubResource("StandardMaterial3D_iolbx")
+mesh = SubResource("BoxMesh_6gxch")
+
+[node name="atack" type="Area3D" parent="mesh" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.7)
+collision_mask = 9
+
+[node name="collision" type="CollisionShape3D" parent="mesh/atack" index="0"]
+shape = SubResource("BoxShape3D_f1lyw")
+disabled = true
+
+[connection signal="area_entered" from="mesh/atack" to="." method="_on_atack_area_entered"]
+[connection signal="body_entered" from="mesh/atack" to="." method="_on_atack_body_entered"]

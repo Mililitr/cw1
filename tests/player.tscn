@@ -1,0 +1,144 @@
+[gd_scene load_steps=12 format=3]
+
+[ext_resource type="Script" path="res://tests/player.gd" id="1_kh578"]
+[ext_resource type="Texture2D" uid="uid://3choucxb67lb" path="res://textures/face.png" id="2_pd36i"]
+[ext_resource type="PackedScene" path="res://items_old/hand/hand.tscn" id="3_d8vmt"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_340h7"]
+albedo_color = Color(0.392157, 0.235294, 0, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_dj50c"]
+material = SubResource("StandardMaterial3D_340h7")
+size = Vector3(0.8, 0.6, 0.4)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_qncvg"]
+size = Vector3(0.8, 0.6, 0.4)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6hbm3"]
+albedo_color = Color(0.54902, 0.392157, 0, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_uflef"]
+material = SubResource("StandardMaterial3D_6hbm3")
+size = Vector3(0.8, 1.8, 0.6)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_2nobf"]
+size = Vector3(0.8, 1.8, 0.6)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_glclx"]
+size = Vector3(0.8, 0.6, 0.8)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_1arvg"]
+size = Vector3(0.8, 1.8, 0.8)
+
+[node name="player" type="CharacterBody3D"]
+script = ExtResource("1_kh578")
+
+[node name="kinematic" type="Node3D" parent="."]
+
+[node name="camera" type="Camera3D" parent="kinematic"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -0.3)
+
+[node name="ray" type="RayCast3D" parent="kinematic/camera"]
+target_position = Vector3(0, 0, -400)
+
+[node name="sprite" type="Sprite3D" parent="kinematic/camera"]
+transform = Transform3D(-5, 0, -7.54979e-07, 0, 5, 0, 7.54979e-07, 0, -5, 0, 0, 0)
+shaded = true
+double_sided = false
+texture_filter = 0
+texture = ExtResource("2_pd36i")
+
+[node name="head" type="MeshInstance3D" parent="kinematic/camera"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.3)
+mesh = SubResource("BoxMesh_dj50c")
+
+[node name="head_area" type="Area3D" parent="kinematic/camera/head"]
+monitorable = false
+
+[node name="collision" type="CollisionShape3D" parent="kinematic/camera/head/head_area"]
+shape = SubResource("BoxShape3D_qncvg")
+
+[node name="body" type="MeshInstance3D" parent="kinematic"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.4, 0)
+mesh = SubResource("BoxMesh_uflef")
+skeleton = NodePath("../..")
+
+[node name="camera" type="Node3D" parent="kinematic/body"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, -0.3)
+
+[node name="body_area" type="Area3D" parent="kinematic/body"]
+monitorable = false
+
+[node name="collision" type="CollisionShape3D" parent="kinematic/body/body_area"]
+shape = SubResource("BoxShape3D_2nobf")
+
+[node name="lh" type="Node3D" parent="kinematic/body"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.6, 0.8, 0)
+
+[node name="hand" parent="kinematic/body/lh" instance=ExtResource("3_d8vmt")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.8)
+
+[node name="rh" type="Node3D" parent="kinematic/body"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.6, 0.8, 0)
+
+[node name="hand" parent="kinematic/body/rh" instance=ExtResource("3_d8vmt")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.8)
+
+[node name="head" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("BoxShape3D_glclx")
+
+[node name="collision" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.4, 0)
+shape = SubResource("BoxShape3D_1arvg")
+
+[node name="ray" type="RayCast3D" parent="."]
+target_position = Vector3(0, 1, 0)
+
+[node name="screen" type="MarginContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="control" type="MarginContainer" parent="screen"]
+layout_mode = 2
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_top = 50
+theme_override_constants/margin_right = 50
+theme_override_constants/margin_bottom = 50
+
+[node name="cross" type="Label" parent="screen/control"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 20
+text = "+"
+horizontal_alignment = 1
+
+[node name="lh" type="MarginContainer" parent="screen/control"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+theme_override_constants/margin_top = -50
+theme_override_constants/margin_right = -50
+
+[node name="label" type="Label" parent="screen/control/lh"]
+layout_mode = 2
+
+[node name="rh" type="MarginContainer" parent="screen/control"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+theme_override_constants/margin_left = -50
+theme_override_constants/margin_top = -50
+
+[node name="label" type="Label" parent="screen/control/rh"]
+layout_mode = 2
+
+[node name="black" type="ColorRect" parent="screen"]
+layout_mode = 2
+color = Color(0, 0, 0, 0)
+
+[connection signal="area_entered" from="kinematic/camera/head/head_area" to="." method="_on_head_area_area_entered"]
+[connection signal="area_entered" from="kinematic/body/body_area" to="." method="_on_body_area_area_entered"]

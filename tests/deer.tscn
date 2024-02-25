@@ -1,0 +1,78 @@
+[gd_scene load_steps=10 format=3]
+
+[ext_resource type="Texture2D" uid="uid://3choucxb67lb" path="res://textures/face.png" id="1_0twxh"]
+[ext_resource type="PackedScene" path="res://items_old/hand/hand.tscn" id="2_n0bmt"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_h4ox3"]
+albedo_color = Color(0.33, 0.242, 0, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_2gw0c"]
+material = SubResource("StandardMaterial3D_h4ox3")
+size = Vector3(0.8, 0.6, 0.4)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_v1mkt"]
+size = Vector3(0.8, 0.6, 0.4)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wfy8h"]
+albedo_color = Color(0.54902, 0.411765, 0, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_5xk30"]
+material = SubResource("StandardMaterial3D_wfy8h")
+size = Vector3(0.8, 1.8, 0.6)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ni7ke"]
+size = Vector3(0.8, 1.8, 0.6)
+
+[sub_resource type="BoxMesh" id="BoxMesh_01gsw"]
+material = SubResource("StandardMaterial3D_wfy8h")
+size = Vector3(0.4, 0.6, 0.4)
+
+[node name="deer" type="Node3D"]
+
+[node name="camera" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -0.5)
+
+[node name="ray" type="RayCast3D" parent="camera"]
+target_position = Vector3(0, 0, -400)
+
+[node name="sprite" type="Sprite3D" parent="camera"]
+transform = Transform3D(5, 4.37114e-07, 7.54979e-07, 4.37114e-07, -5, 6.60024e-14, 7.54979e-07, 0, -5, 0, 0, 0)
+shaded = true
+double_sided = false
+texture_filter = 0
+texture = ExtResource("1_0twxh")
+
+[node name="head" type="MeshInstance3D" parent="camera"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.3)
+mesh = SubResource("BoxMesh_2gw0c")
+
+[node name="head_area" type="Area3D" parent="camera/head"]
+monitorable = false
+
+[node name="collision" type="CollisionShape3D" parent="camera/head/head_area"]
+shape = SubResource("BoxShape3D_v1mkt")
+
+[node name="body" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.422618, 0.906308, 0, -0.906308, 0.422618, 0, -0.4, 0)
+mesh = SubResource("BoxMesh_5xk30")
+skeleton = NodePath("../..")
+
+[node name="body_area" type="Area3D" parent="body"]
+monitorable = false
+
+[node name="collision" type="CollisionShape3D" parent="body/body_area"]
+shape = SubResource("BoxShape3D_ni7ke")
+
+[node name="lh" type="Node3D" parent="body"]
+transform = Transform3D(1, 0, 0, 0, 0.642788, -0.766044, 0, 0.766044, 0.642788, -0.6, 0.6, 0)
+
+[node name="hand" parent="body/lh" instance=ExtResource("2_n0bmt")]
+
+[node name="rh" type="Node3D" parent="body"]
+transform = Transform3D(1, 0, 0, 0, 0.642788, -0.766044, 0, 0.766044, 0.642788, 0.6, 0.6, 0)
+
+[node name="hand" parent="body/rh" instance=ExtResource("2_n0bmt")]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="body"]
+transform = Transform3D(1, 0, 0, 0, 0.422618, -0.906308, 0, 0.906308, 0.422618, 0, 0.4, 0.5)
+mesh = SubResource("BoxMesh_01gsw")

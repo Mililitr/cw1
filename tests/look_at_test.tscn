@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://coi1yst1lg6w6"]
+
+[ext_resource type="Script" path="res://tests/look_at_test.gd" id="1_hcs0w"]
+[ext_resource type="Texture2D" uid="uid://3choucxb67lb" path="res://textures/face.png" id="1_nqhqu"]
+[ext_resource type="Texture2D" uid="uid://sjlnjkr1moma" path="res://textures/icon.svg" id="2_vrgfm"]
+
+[node name="look_at_test" type="Node2D"]
+script = ExtResource("1_hcs0w")
+
+[node name="Face" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(576, 320)
+scale = Vector2(5, 5)
+texture = ExtResource("1_nqhqu")
+
+[node name="Icon" type="Sprite2D" parent="."]
+rotation = -6.28319
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("2_vrgfm")

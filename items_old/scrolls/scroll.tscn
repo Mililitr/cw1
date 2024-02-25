@@ -1,0 +1,28 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="PackedScene" path="res://items_old/item.tscn" id="1_ilysu"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_4f21q"]
+size = Vector3(0.2, 1.4, 0.2)
+
+[sub_resource type="BoxMesh" id="BoxMesh_6i5wg"]
+size = Vector3(0.3, 0.2, 0.3)
+
+[node name="scroll" instance=ExtResource("1_ilysu")]
+script = null
+
+[node name="mesh" type="Node3D" parent="." index="0"]
+
+[node name="mesh1" type="MeshInstance3D" parent="mesh" index="0"]
+mesh = SubResource("BoxMesh_4f21q")
+skeleton = NodePath("../..")
+
+[node name="mesh2" type="MeshInstance3D" parent="mesh" index="1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+mesh = SubResource("BoxMesh_6i5wg")
+skeleton = NodePath("../..")
+
+[node name="mesh3" type="MeshInstance3D" parent="mesh" index="2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.4, 0)
+mesh = SubResource("BoxMesh_6i5wg")
+skeleton = NodePath("../..")

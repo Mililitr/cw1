@@ -1,0 +1,54 @@
+[gd_scene load_steps=11 format=3]
+
+[ext_resource type="Texture2D" uid="uid://hru47nfna4bk" path="res://textures/grass.png" id="1_3hqhi"]
+[ext_resource type="Script" path="res://tests/grid_rand_test.gd" id="2_gu30e"]
+[ext_resource type="PackedScene" uid="uid://bg4ygxw126ich" path="res://player/player.tscn" id="3_7la2f"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_f7u6r"]
+albedo_color = Color(0, 0.407843, 0, 1)
+albedo_texture = ExtResource("1_3hqhi")
+uv1_offset = Vector3(0.5, 0.5, 0.5)
+uv1_triplanar = true
+texture_filter = 2
+
+[sub_resource type="BoxMesh" id="BoxMesh_yg1kn"]
+material = SubResource("StandardMaterial3D_f7u6r")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_r082a"]
+
+[sub_resource type="MeshLibrary" id="MeshLibrary_nltr7"]
+item/0/name = "grass"
+item/0/mesh = SubResource("BoxMesh_yg1kn")
+item/0/mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+item/0/shapes = [SubResource("BoxShape3D_r082a"), Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)]
+item/0/navigation_mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+item/0/navigation_layers = 1
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_72lqa"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_ufemu"]
+sky_material = SubResource("ProceduralSkyMaterial_72lqa")
+
+[sub_resource type="Environment" id="Environment_ktkn5"]
+background_mode = 2
+sky = SubResource("Sky_ufemu")
+tonemap_mode = 2
+glow_enabled = true
+
+[node name="grid" type="GridMap"]
+mesh_library = SubResource("MeshLibrary_nltr7")
+cell_size = Vector3(1, 1, 1)
+cell_octant_size = 1024
+cell_center_x = false
+cell_center_y = false
+cell_center_z = false
+script = ExtResource("2_gu30e")
+metadata/_editor_floor_ = Vector3(0, 0, 0)
+
+[node name="player" parent="." instance=ExtResource("3_7la2f")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 55, 0)
+
+[node name="env" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_ktkn5")
